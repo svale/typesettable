@@ -146,7 +146,7 @@ export class SvgContext implements ITypesetterContext<SVGElement> {
           element.textContent = line;
           element.setAttribute("text-anchor", SvgContext.AnchorMap[xAlign]);
           element.setAttribute("transform", `translate(${xOffset},${yOffset})`);
-          element.setAttribute("y", "-0.25em");
+          element.setAttribute("y", "-0.47em"); //.25 -> 0.47. to account for ascendents. @todo: shoud be config option
         },
     };
   }
