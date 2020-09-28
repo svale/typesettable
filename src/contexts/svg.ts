@@ -115,6 +115,13 @@ export class SvgContext implements ITypesetterContext<SVGElement> {
     if (element == null) {
       element = this.element;
     }
+
+    // remove existing text-container before appending new (@svale). @todo: should be config option ?
+    const oldTextContainers = element.querySelectorAll('.text-container')
+    oldTextContainers.forEach(c => {
+      element.removeChild(c);
+  	});
+
     const textContainer = SvgUtils.append(element, "g", "text-container", this.className);
 
     // attach optional title
@@ -129,6 +136,7 @@ export class SvgContext implements ITypesetterContext<SVGElement> {
       `translate(${transform.translate[0]},${transform.translate[1]})` +
       `rotate(${transform.rotate})`,
     );
+    // console.log('textBlockGroup', textBlockGroup);
     return this.createSvgLinePen(textBlockGroup);
   }
 
