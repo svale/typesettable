@@ -182,6 +182,7 @@ export class Writer {
         shearCorrectedSecondaryDimension,
       ).wrappedText : normalizedText;
     const lines = wrappedText.split("\n");
+    // console.log('lines', lines);
 
     // correct the intial x/y offset of the text container accounting shear and alignment
     const shearCorrectedXOffset = Writer.XOffsetFactor[options.xAlign] *
@@ -230,7 +231,8 @@ export class Writer {
       lineHeight: number,
       shearShift: number,
       xAlign: IXAlign) {
-    lines.forEach((line: string, i: number) => {
+      lines.forEach((line: string, i: number) => {
+      // console.log(lineHeight)
       const xShearOffset = (shearShift > 0) ? (i + 1) * shearShift : (i) * shearShift;
       linePen.write(line, width, xAlign, xShearOffset, (i + 1) * lineHeight);
     });
