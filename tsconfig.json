@@ -11,7 +11,8 @@
     "removeComments": false,
     "sourceMap": true,
     "stripInternal": true,
-    "target": "es5"
+    "target": "es2015",
+    "skipLibCheck": true,
   },
   "exclude": [
     "build",
