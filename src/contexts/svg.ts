@@ -117,10 +117,10 @@ export class SvgContext implements ITypesetterContext<SVGElement> {
     }
 
     // remove existing text-container before appending new (@svale). @todo: should be config option ?
-    const oldTextContainers = element.querySelectorAll('.text-container')
-    oldTextContainers.forEach(c => {
+    const oldTextContainers = element.querySelectorAll(".text-container");
+    oldTextContainers.forEach((c) => {
       element.removeChild(c);
-  	});
+    });
 
     const textContainer = SvgUtils.append(element, "g", "text-container", this.className);
 
@@ -137,24 +137,36 @@ export class SvgContext implements ITypesetterContext<SVGElement> {
       `rotate(${transform.rotate})`,
     );
     // console.log('textBlockGroup', textBlockGroup);
+    // console.log('123');
     return this.createSvgLinePen(textBlockGroup);
   }
 
   private createSvgLinePen(textBlockGroup: SVGGElement) {
+
     return {
+      // Change by @svale: Add lineNumber
       write: (
           line: string,
           width: number,
           xAlign: IXAlign,
           xOffset: number,
           yOffset: number,
+          lineNumber: number
         ) => {
+
+          // Change by @svale: Differentiate the vertical offset between first line and the others
+          // First line (0) sets block position. It's changed  from .25 -> 0.47. to account for ascendents. 
+          // the following lines tweak line height (0.6)
+          // @todo: shoud be config option
+          const yPos = +lineNumber > 0 ? "-0.6em" : "-0.47em"
+
           xOffset += width * Writer.XOffsetFactor[xAlign];
           const element = SvgUtils.append(textBlockGroup, "text", "text-line");
           element.textContent = line;
           element.setAttribute("text-anchor", SvgContext.AnchorMap[xAlign]);
           element.setAttribute("transform", `translate(${xOffset},${yOffset})`);
-          element.setAttribute("y", "-0.47em"); //.25 -> 0.47. to account for ascendents. @todo: shoud be config option
+          // element.setAttribute("data-li", lineNumber); // for debugging
+          element.setAttribute("y", yPos);
         },
     };
   }

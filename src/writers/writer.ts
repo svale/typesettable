@@ -40,7 +40,7 @@ export interface IPen {
    * `xOffset` and `yOffset` are assumed to be in an independent text-aligned
    * coordinate space.
    */
-  write: (line: string, width: number, anchor: IXAlign, xOffset: number, yOffset: number) => void;
+  write: (line: string, width: number, anchor: IXAlign, xOffset: number, yOffset: number, lineNumber: number) => void;
 }
 
 /**
@@ -234,7 +234,7 @@ export class Writer {
       lines.forEach((line: string, i: number) => {
       // console.log(lineHeight)
       const xShearOffset = (shearShift > 0) ? (i + 1) * shearShift : (i) * shearShift;
-      linePen.write(line, width, xAlign, xShearOffset, (i + 1) * lineHeight);
+      linePen.write(line, width, xAlign, xShearOffset, (i + 1) * lineHeight, i);
     });
   }
 }
