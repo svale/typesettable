@@ -102,7 +102,7 @@ class Writer {
         lines.forEach((line, i) => {
             // console.log(lineHeight)
             const xShearOffset = (shearShift > 0) ? (i + 1) * shearShift : (i) * shearShift;
-            linePen.write(line, width, xAlign, xShearOffset, (i + 1) * lineHeight);
+            linePen.write(line, width, xAlign, xShearOffset, (i + 1) * lineHeight, i);
         });
     }
 }

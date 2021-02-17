@@ -77,8 +77,8 @@ class SvgContext {
                 element = this.element;
             }
             // remove existing text-container before appending new (@svale). @todo: should be config option ?
-            const oldTextContainers = element.querySelectorAll('.text-container');
-            oldTextContainers.forEach(c => {
+            const oldTextContainers = element.querySelectorAll(".text-container");
+            oldTextContainers.forEach((c) => {
                 element.removeChild(c);
             });
             const textContainer = SvgUtils.append(element, "g", "text-container", this.className);
@@ -92,6 +92,7 @@ class SvgContext {
             textBlockGroup.setAttribute("transform", `translate(${transform.translate[0]},${transform.translate[1]})` +
                 `rotate(${transform.rotate})`);
             // console.log('textBlockGroup', textBlockGroup);
+            // console.log('123');
             return this.createSvgLinePen(textBlockGroup);
         };
     }
@@ -100,13 +101,20 @@ class SvgContext {
     }
     createSvgLinePen(textBlockGroup) {
         return {
-            write: (line, width, xAlign, xOffset, yOffset) => {
+            // Change by @svale: Add lineNumber
+            write: (line, width, xAlign, xOffset, yOffset, lineNumber) => {
+                // Change by @svale: Differentiate the vertical offset between first line and the others
+                // First line (0) sets block position. It's changed  from .25 -> 0.47. to account for ascendents. 
+                // the following lines tweak line height (0.6)
+                // @todo: shoud be config option
+                const yPos = +lineNumber > 0 ? "-0.6em" : "-0.47em";
                 xOffset += width * writers_1.Writer.XOffsetFactor[xAlign];
                 const element = SvgUtils.append(textBlockGroup, "text", "text-line");
                 element.textContent = line;
                 element.setAttribute("text-anchor", SvgContext.AnchorMap[xAlign]);
                 element.setAttribute("transform", `translate(${xOffset},${yOffset})`);
-                element.setAttribute("y", "-0.47em"); //.25 -> 0.47. to account for ascendents. @todo: shoud be config option
+                // element.setAttribute("data-li", lineNumber); // for debugging
+                element.setAttribute("y", yPos);
             },
         };
     }

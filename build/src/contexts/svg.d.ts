@@ -42,7 +42,7 @@ export declare class SvgContext implements ITypesetterContext<SVGElement> {
     setAddTitleElement(addTitleElement: boolean): void;
     createRuler: () => (text: string) => IDimensions;
     createPen: (text: string, transform: ITransform, element?: Element) => {
-        write: (line: string, width: number, xAlign: IXAlign, xOffset: number, yOffset: number) => void;
+        write: (line: string, width: number, xAlign: IXAlign, xOffset: number, yOffset: number, lineNumber: number) => void;
     };
     private createSvgLinePen;
     private getTextElements;

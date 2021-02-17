@@ -33,7 +33,7 @@ export interface IPen {
      * `xOffset` and `yOffset` are assumed to be in an independent text-aligned
      * coordinate space.
      */
-    write: (line: string, width: number, anchor: IXAlign, xOffset: number, yOffset: number) => void;
+    write: (line: string, width: number, anchor: IXAlign, xOffset: number, yOffset: number, lineNumber: number) => void;
 }
 /**
  * A factory method that sets up a line pen for a new block of text. This method
